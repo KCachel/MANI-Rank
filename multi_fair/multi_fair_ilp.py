@@ -23,8 +23,11 @@ def generate_mixed_pairs_per_item(attribute_dict, n_candidates):
     return mpair_dict
 
 
-def aggregate_rankings_fair_ilp(ranks, groups, thres_vals):
+def aggregate_rankings_fair_ilp(ranks, groups, thres_vals, make_inter):
     global attribute_dict
+    if make_inter:
+        intersectional = make_intersectional_attribute(groups, True)
+        groups = np.row_stack((groups, intersectional))
     n_voters, n_candidates = ranks.shape
     # construct
     pwin_cand = np.unique(ranks[0]).tolist()
@@ -106,7 +109,7 @@ def aggregate_rankings_fair_ilp(ranks, groups, thres_vals):
                 # create mixed pairs of cur_group and other_grps
                 groupa_pairs = [(i, j) for i in groupa for j in not_groupa]
                 groupb_pairs = [(i, j) for i in groupb for j in not_groupb]
-                print("mpair_dict ", mpair_dict)
+
 
                 # add constraint
                 prob += (pl.lpSum((1/mpair_dict[a])*X[a][b] for (a, b) in groupa_pairs) - pl.lpSum(
@@ -117,7 +120,7 @@ def aggregate_rankings_fair_ilp(ranks, groups, thres_vals):
 
     #prob.writeLP("rank_agg_fairilpmulti.lp")
 
-    solver = pl.CPLEX_CMD(path = path_to_cplex, mip = True, options=['set mip tolerances integrality 0', 'set mip tolerances mipgap .005' ])
+    solver = pl.CPLEX_CMD(path = path_to_cplex, mip = True, options=['set mip tolerances integrality 0'])
     prob.solve(solver)
     prob.roundSolution()
     print("Status:", pl.LpStatus[prob.status])

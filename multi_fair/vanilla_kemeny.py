@@ -58,7 +58,7 @@ def aggregate_rankings(ranks):
     for (a, b) in combos:
         weight_dict[(a, b)] = precedence_mat[dur_iter]
         dur_iter = dur_iter + 1
-    print(weight_dict)
+
     # Create the 'prob' variable to contain the problem data
     prob = pl.LpProblem("rank_agg", pl.LpMinimize)
 
@@ -81,7 +81,7 @@ def aggregate_rankings(ranks):
                     prob += pl.lpSum(X[a][b] + X[b][c]+ X[c][a]) <= 2
 
     #prob.writeLP("rank_agg.lp")
-    solver = pl.CPLEX_CMD(path=path_to_cplex, mip=True, options=['set mip tolerances integrality 0', 'set mip tolerances mipgap .005' ])
+    solver = pl.CPLEX_CMD(path=path_to_cplex, mip=True, options=['set mip tolerances integrality 0'])
     prob.solve(solver)
     prob.roundSolution()
     print("Status:", pl.LpStatus[prob.status])

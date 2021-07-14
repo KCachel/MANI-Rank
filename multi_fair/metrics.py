@@ -34,9 +34,11 @@ def fpr(ranking, group_key):
             total_favored += favored_pairs_at_pos
         #numerator
         favored_over_other_grp = total_favored - pair_count(grp_sz)
+        #print("numerator in parity : ",favored_over_other_grp)
         #denominator
         total_mixed_with_group = grp_sz*(len(ranking) - grp_sz)
         fpr.append(favored_over_other_grp/total_mixed_with_group)
+        #print("denominator in parity: ", total_mixed_with_group)
     return fpr
 
 
@@ -52,7 +54,7 @@ def rank_parity_score(fpr):
 def cost_fairness(base_rankings, kemeny_ranking, fair_ranking):
     kemeny_obj = count_pairwise_disagreements(base_rankings, kemeny_ranking)
     fair_obj = count_pairwise_disagreements(base_rankings, fair_ranking)
-    return kemeny_obj - fair_obj
+    return fair_obj - kemeny_obj
 
 
 
