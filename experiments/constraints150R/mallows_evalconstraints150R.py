@@ -1,3 +1,10 @@
+"""
+Experiments for group fairness approached evaluation
+"""
+
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
+
 import sys
 
 # append the path of the parent directory
@@ -153,7 +160,7 @@ for i in range(len(thetas)):
     intersection.append(mf.rank_parity_score(fpr_inter))
 
     ###############
-    # Greedy Correction
+    # Post Correction
     ##############
 
     greedy_soln = mf.correct_parity(np.asarray(kemeny_soln), groups_key, pthresh_vals, ithresh)
