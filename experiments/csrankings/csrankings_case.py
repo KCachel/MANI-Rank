@@ -59,6 +59,7 @@ intersection.append(mf.rank_parity_score(fpr_inter_kem))
 print("fpr_inter Kem", fpr_inter_kem)
 
 ###############
+<<<<<<< HEAD
 # MFRA-IP
 ##############
 #
@@ -83,6 +84,32 @@ print("fpr_inter", fpr_inter)
 
 ###############
 # Post-Correct
+=======
+# Multi_Fair constraints (intersectional + protected attribute level)
+##############
+#
+# method_group.append("Multi-Fair")
+# rank_type.append("Multi-Fair")
+# thres_vals = [.05, .05, .05]
+# prob_result = mf.aggregate_rankings_fair_ilp(base_ranks, groups_key, thres_vals, False)
+# fair_soln = mf.find_solution(prob_result, base_ranks.shape[1])
+#
+# fpr_location = mf.fpr(fair_soln, np.row_stack((groups_key[0], groups_key[1])))
+# location.append(mf.rank_parity_score(fpr_location))
+# print("fpr_location", fpr_location)
+#
+# fpr_type = mf.fpr(fair_soln, np.row_stack((groups_key[0], groups_key[2])))
+# type.append(mf.rank_parity_score(fpr_type))
+# print("fpr_race", fpr_type)
+#
+# # intersectional
+# fpr_inter = mf.fpr(fair_soln, np.row_stack((groups_key[0], groups_key[3])))
+# intersection.append(mf.rank_parity_score(fpr_inter))
+# print("fpr_inter", fpr_inter)
+
+###############
+# Multi_Fair constraints (greedy)
+>>>>>>> parent of 7f53d05 (Delete experiments/csrankings directory)
 ##############
 
 pthresh_vals = [.05, .05]
@@ -107,6 +134,10 @@ fpr_inter = mf.fpr(greedy_soln, np.row_stack((groups_key[0], groups_key[3])))
 intersection.append(mf.rank_parity_score(fpr_inter))
 print("fpr_inter", fpr_inter)
 
+<<<<<<< HEAD
+=======
+print("greedy fair ","done")
+>>>>>>> parent of 7f53d05 (Delete experiments/csrankings directory)
 
 
 dict = {'location': location, 'type': type, 'irp': intersection, 'method_group': method_group,
