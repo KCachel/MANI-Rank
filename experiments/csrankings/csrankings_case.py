@@ -1,3 +1,10 @@
+"""
+Script fo rCS Rankings Base Ranking Case Study
+"""
+
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
+
 import multi_fair as mf
 import numpy as np
 import pandas as pd
