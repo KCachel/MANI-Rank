@@ -1,8 +1,8 @@
 """
-Helper functions for analyzing solutions
+Helper functions
 """
-
-# Authors: Kathleen Cachel <kcachel@wpi.edu>
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
 
 
 import numpy as np

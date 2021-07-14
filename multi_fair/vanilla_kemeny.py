@@ -1,7 +1,10 @@
 """
 Script for Kemeny Rank Aggregation (baseline) with no fairness constraints
+References: Conitzer, Vincent, Andrew Davenport, and Jayant Kalagnanam. "Improved bounds for computing Kemeny rankings." AAAI. Vol. 6. 2006.
 """
 
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
 # Authors: Kathleen Cachel <kcachel@wpi.edu>
 import numpy as np
 import pulp as pl

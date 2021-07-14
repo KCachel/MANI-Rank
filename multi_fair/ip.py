@@ -1,7 +1,8 @@
 """
-Script for Multi-Fair ILP
+Script for MFRA-IP
 """
-# Authors: Kathleen Cachel <kcachel@wpi.edu>
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
 
 import numpy as np
 import pulp as pl
@@ -50,7 +51,6 @@ def aggregate_rankings_fair_ilp(ranks, groups, thres_vals, make_inter):
     for (a, b) in combos:
         weight_dict[(a, b)] = precedence_mat[dur_iter]
         dur_iter = dur_iter + 1
-    #print(weight_dict)
     # Create the 'prob' variable to contain the problem data
     prob = pl.LpProblem("rank_agg", pl.LpMinimize)
 
@@ -117,8 +117,6 @@ def aggregate_rankings_fair_ilp(ranks, groups, thres_vals, make_inter):
                 prob += (pl.lpSum(-(1 / mpair_dict[a]) * X[a][b] for (a, b) in groupa_pairs) + pl.lpSum(
                     (1 / mpair_dict[c]) * X[c][d] for (c, d) in groupb_pairs)) <= thres
 
-
-    #prob.writeLP("rank_agg_fairilpmulti.lp")
 
     solver = pl.CPLEX_CMD(path = path_to_cplex, mip = True, options=['set mip tolerances integrality 0'])
     prob.solve(solver)

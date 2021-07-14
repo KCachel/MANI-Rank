@@ -1,3 +1,9 @@
+"""
+Script for MFRA-PostCorrect
+"""
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
+
 import numpy as np
 from multi_fair.metrics import *
 from multi_fair.utils import *

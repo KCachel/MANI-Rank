@@ -1,13 +1,10 @@
 """Metrics for assessing statistical parity, and allocation of positive outcome
 """
-# Authors: Kathleen Cachel <kcachel@wpi.edu>
+
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
 import numpy as np
 from multi_fair.utils import *
-
-ranking = np.array([0, 3, 4, 5, 6, 1, 2])
-group_key = np.array([[0, 1, 2, 3, 4, 5, 6],
-                      [0, 1, 0, 1, 2, 3, 2]])
-
 
 
 def fpr(ranking, group_key):
