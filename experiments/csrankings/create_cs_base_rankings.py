@@ -1,3 +1,9 @@
+"""Code to generate CSBaseRankings with numeric protected attributes
+"""
+
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
+
 import numpy as np
 import pandas as pd
 
@@ -5,7 +11,7 @@ baseR = pd.read_excel('allyr_baserankings.xlsx')
 baseR = baseR.replace(u'\xa0', u' ', regex=True) #get rid of weird encoding
 print(baseR)
 
-deptdf = pd.read_excel('/Users/KathleenCachel/OneDrive - Worcester Polytechnic Institute (wpi.edu)/ResearchWork2021/csrankings_dictionary.xlsx')
+deptdf = pd.read_excel('csrankings_dictionary.xlsx')
 print(deptdf)
 
 school_int_id_dict = {}
