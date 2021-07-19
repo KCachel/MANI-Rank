@@ -1,6 +1,5 @@
 library(tidyverse)
 library(readr)
-setwd("~/OneDrive - Worcester Polytechnic Institute (wpi.edu)/PycharmProjects/multi_fair_rank_agg/experiments/csrankings")
 csrankings_results <- read_csv("csrankings_results.csv")
 
 
