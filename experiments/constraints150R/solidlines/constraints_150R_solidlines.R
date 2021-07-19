@@ -5,7 +5,7 @@ library("gridExtra")
 library(ggpubr)
 library(ggtext)
 
-setwd("~/OneDrive - Worcester Polytechnic Institute (wpi.edu)/PycharmProjects/multi_fair_rank_agg/experiments/constraints150R/solidlines")
+
 Malowsresults_150r_constraints <- read_csv("~/OneDrive - Worcester Polytechnic Institute (wpi.edu)/PycharmProjects/multi_fair_rank_agg/experiments/constraints150R/Malowsresults_150r_constraints.csv")
 
 cleanResults <- Malowsresults_150r_constraints %>%
