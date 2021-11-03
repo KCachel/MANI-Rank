@@ -1,0 +1,74 @@
+"""
+Script for Kemeny Rank Aggregation (baseline) with no fairness constraints
+References: Conitzer, Vincent, Andrew Davenport, and Jayant Kalagnanam. "Improved bounds for computing Kemeny rankings." AAAI. Vol. 6. 2006.
+"""
+
+#License: GNU GENERAL PUBLIC LICENSE
+# Authors:  <kcachel@wpi.edu>
+# Authors: Kathleen Cachel <kcachel@wpi.edu>
+import numpy as np
+import pulp as pl
+from multi_fair.utils import *
+
+#path_to_cplex = r'/Applications/CPLEX_Studio201/cplex/bin/x86-64_osx/cplex'
+path_to_cplex = r'C:\Program Files\IBM\ILOG\CPLEX_Studio201\cplex\bin\x64_win64\cplex.exe'
+
+
+
+def aggregate_rankings(ranks):
+    n_voters, n_candidates = ranks.shape
+    # construct
+    pwin_cand = np.unique(ranks[0]).tolist()
+    plose_cand = np.unique(ranks[0]).tolist()
+    # convert pairwise wining/losing candidate index to string to index our variable
+    plose_cand = [str(var) for var in plose_cand]
+    pwin_cand = [str(var) for var in pwin_cand]
+    cand = plose_cand
+
+
+    # create a list of tuples containing all possible win row candidates and lose column candidates
+    combos = [(i, j) for i in pwin_cand for j in plose_cand]
+
+    #create a list of the precedence matrix representing the number of base rankings where a = row lost to b = col
+    precedence_mat = all_pair_precedence(ranks)
+    precedence_mat = precedence_mat.ravel()
+
+    # create a dictionary to hold the weight for cand pair a and b, where cand a and cand b are keys and the #rankers put b above a is value (precedence mat)
+    weight_dict = {}
+    dur_iter = 0
+    for (a, b) in combos:
+        weight_dict[(a, b)] = precedence_mat[dur_iter]
+        dur_iter = dur_iter + 1
+
+    # Create the 'prob' variable to contain the problem data
+    prob = pl.LpProblem("rank_agg", pl.LpMinimize)
+
+    # Create the Xab variable
+    X = pl.LpVariable.dicts("X", (pwin_cand, plose_cand), 0, 1, pl.LpInteger)
+
+    # Add the objective function
+    prob += pl.lpSum(X[a][b] * weight_dict[(a, b)] for (a,b) in combos)
+
+    # The strict ordering constraint
+    for (a, b) in combos:
+        if a != b:
+            prob += pl.lpSum(X[a][b] + X[b][a] ) == 1
+
+    # The transitivity constraint
+    for (a, b) in combos:
+        if a != b:
+            for c in cand:
+                if c != a and c!= b:
+                    prob += pl.lpSum(X[a][b] + X[b][c]+ X[c][a]) <= 2
+
+    #prob.writeLP("rank_agg.lp")
+    solver = pl.CPLEX_CMD(path=path_to_cplex, mip=True, options=['set mip tolerances integrality 0', 'set mip tolerances mipgap .005'])
+   # solver = pl.CPLEX_CMD(path=path_to_cplex, mip=True)
+    prob.solve(solver)
+    prob.roundSolution()
+    print("Status:", pl.LpStatus[prob.status])
+
+
+    return prob
+
+
